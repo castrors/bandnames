@@ -35,6 +35,9 @@ class _BandListScreenState extends State<BandListScreen> {
       trailing: CircleAvatar(
         child: Text(document['votes'].toString()),
       ),
+      onTap: () {
+        document.reference.updateData({'votes': document['votes'] + 1});
+      },
     );
   }
 }
