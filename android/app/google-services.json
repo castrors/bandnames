@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "533474290880",
+    "firebase_url": "https://bandnames-256fb.firebaseio.com",
+    "project_id": "bandnames-256fb",
+    "storage_bucket": "bandnames-256fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533474290880:android:e46e9aa29c4b93008fd125",
+        "android_client_info": {
+          "package_name": "com.example.bandnames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533474290880-nrqc6tq77abqiif81vqe70jask5mfpmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-zbJPWRy0-pWG5oAmpFm7S3GVJ-XHyuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533474290880-nrqc6tq77abqiif81vqe70jask5mfpmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
