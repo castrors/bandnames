@@ -1,13 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddBandScreen extends StatefulWidget {
+class BandDetailScreen extends StatefulWidget {
+  final DocumentSnapshot document;
+
+  const BandDetailScreen({this.document});
+
   @override
-  _AddBandScreenState createState() => _AddBandScreenState();
+  _BandDetailScreenState createState() => _BandDetailScreenState();
 }
 
-class _AddBandScreenState extends State<AddBandScreen> {
+class _BandDetailScreenState extends State<BandDetailScreen> {
   String _name = '';
+  DocumentSnapshot document;
+
+  @override
+  void initState() {
+    super.initState();
+    document = widget.document;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +29,17 @@ class _AddBandScreenState extends State<AddBandScreen> {
           IconButton(
             icon: Icon(Icons.check),
             onPressed: () {
-              Firestore.instance
-                  .collection('bands')
-                  .document()
-                  .setData({'name': _name, 'votes': 0});
+              if (document != null) {
+                Firestore.instance
+                    .collection('bands')
+                    .document(document.documentID)
+                    .setData({'name': _name, 'votes': document.data['votes']});
+              } else {
+                Firestore.instance
+                    .collection('bands')
+                    .document()
+                    .setData({'name': _name, 'votes': 0});
+              }
 
               Navigator.pop(context);
             },
@@ -32,6 +51,7 @@ class _AddBandScreenState extends State<AddBandScreen> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              initialValue: document != null ? document.data['name'] : null,
               decoration: InputDecoration(labelText: 'Name'),
               onChanged: (name) {
                 _name = name;

@@ -33,7 +33,7 @@ class _BandListScreenState extends State<BandListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddBandScreen()),
+            MaterialPageRoute(builder: (context) => BandDetailScreen()),
           );
         },
       ),
@@ -41,20 +41,30 @@ class _BandListScreenState extends State<BandListScreen> {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-    return ListTile(
-      title: Text(document['name']),
-      trailing: CircleAvatar(
-        child: Text(document['votes'].toString()),
+    return Dismissible(
+      key: Key(document.documentID),
+      child: ListTile(
+        title: Text(document['name']),
+        trailing: CircleAvatar(
+          child: Text(document['votes'].toString()),
+        ),
+        onTap: () {
+          Firestore.instance.runTransaction((transaction) async {
+            DocumentSnapshot freshSnap =
+                await transaction.get(document.reference);
+            await transaction
+                .update(freshSnap.reference, {'votes': freshSnap['votes'] + 1});
+          });
+        },
+        onLongPress: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BandDetailScreen(document: document)),
+          );
+        },
       ),
-      onTap: () {
-        Firestore.instance.runTransaction((transaction) async {
-          DocumentSnapshot freshSnap =
-              await transaction.get(document.reference);
-          await transaction
-              .update(freshSnap.reference, {'votes': freshSnap['votes'] + 1});
-        });
-      },
-      onLongPress: () {
+      onDismissed: (direction) {
         Firestore.instance.runTransaction((transaction) async {
           DocumentSnapshot freshSnap =
               await transaction.get(document.reference);
