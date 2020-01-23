@@ -36,7 +36,12 @@ class _BandListScreenState extends State<BandListScreen> {
         child: Text(document['votes'].toString()),
       ),
       onTap: () {
-        document.reference.updateData({'votes': document['votes'] + 1});
+        Firestore.instance.runTransaction((transaction) async {
+          DocumentSnapshot freshSnap =
+              await transaction.get(document.reference);
+          await transaction
+              .update(freshSnap.reference, {'votes': freshSnap['votes'] + 1});
+        });
       },
     );
   }
