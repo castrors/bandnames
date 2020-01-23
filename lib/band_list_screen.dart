@@ -43,6 +43,13 @@ class _BandListScreenState extends State<BandListScreen> {
               .update(freshSnap.reference, {'votes': freshSnap['votes'] + 1});
         });
       },
+      onLongPress: () {
+        Firestore.instance.runTransaction((transaction) async {
+          DocumentSnapshot freshSnap =
+              await transaction.get(document.reference);
+          await transaction.delete(freshSnap.reference);
+        });
+      },
     );
   }
 }
