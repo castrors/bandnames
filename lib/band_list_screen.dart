@@ -19,7 +19,10 @@ class _BandListScreenState extends State<BandListScreen> {
         title: Text(widget.title),
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('bands').snapshots(),
+          stream: Firestore.instance
+              .collection('bands')
+              .orderBy('votes', descending: true)
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading ...');
             return ListView.builder(
